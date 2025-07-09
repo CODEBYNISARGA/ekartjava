@@ -4,21 +4,25 @@ phases:
   install:
     runtime-versions:
       java: corretto17
+
   pre_build:
     commands:
-      - echo Showing project structure
-      - ls -al
-      - find . -name "pom.xml"
+      - echo Pre-Build Phase: Listing all files
+      - ls -R
+
   build:
     commands:
-      - echo Moving into the directory with pom.xml
-      - cd Ekart-main/Ekart-main
-      - echo Building the Spring Boot app
+      - echo Entering Ekart-main directory...
+      - cd Ekart-main
+      - echo Running Maven build...
       - mvn clean package -DskipTests
+
   post_build:
     commands:
-      - echo Uploading JAR to S3
+      - echo Uploading JAR file to S3...
       - aws s3 cp target/*.jar s3://myekarts3/
+
 artifacts:
   files:
-    - Ekart-main/Ekart-main/target/*.jar
+    - Ekart-main/target/*.jar
+
