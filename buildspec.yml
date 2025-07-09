@@ -5,17 +5,23 @@ phases:
     runtime-versions:
       java: corretto17
     commands:
-      - echo Installing Maven...
-      - apt-get update && apt-get install -y maven
+      - echo Installing Maven and AWS CLI...
+      - apt-get update && apt-get install -y maven unzip curl
+      - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+      - unzip awscliv2.zip
+      - ./aws/install
+
   build:
     commands:
       - echo Building the Spring Boot application...
-      - mvn clean package -DskipTests
+      - mvn clean package -DskipTests || exit 1
+
   post_build:
     commands:
-      - echo Build completed successfully.
-      - echo Uploading to S3...
+      - echo Uploading .jar file to S3...
       - aws s3 cp target/*.jar s3://myekarts3/
+
 artifacts:
   files:
     - target/*.jar
+
