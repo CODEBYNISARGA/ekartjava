@@ -1,0 +1,21 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto17
+    commands:
+      - echo Installing Maven...
+      - apt-get update && apt-get install -y maven
+  build:
+    commands:
+      - echo Building the Spring Boot application...
+      - mvn clean package -DskipTests
+  post_build:
+    commands:
+      - echo Build completed successfully.
+      - echo Uploading to S3...
+      - aws s3 cp target/*.jar s3://myekarts3/
+artifacts:
+  files:
+    - target/*.jar
