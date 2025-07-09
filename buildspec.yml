@@ -7,22 +7,23 @@ phases:
 
   pre_build:
     commands:
-      - echo Pre-Build Phase: Listing all files
-      - ls -R
+      - echo "Navigating to project directory..."
+      - cd Ekart-main
+      - echo "Listing files in Ekart-main to verify:"
+      - ls -l
 
   build:
     commands:
-      - echo Entering Ekart-main directory...
-      - cd Ekart-main
-      - echo Running Maven build...
+      - echo "Building the Spring Boot application..."
       - mvn clean package -DskipTests
 
   post_build:
     commands:
-      - echo Uploading JAR file to S3...
+      - echo "Uploading JAR to S3..."
       - aws s3 cp target/*.jar s3://myekarts3/
 
 artifacts:
   files:
     - Ekart-main/target/*.jar
+
 
