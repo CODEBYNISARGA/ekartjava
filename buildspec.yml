@@ -27,7 +27,8 @@ phases:
 
   post_build:
     commands:
-      - echo "✅ Build complete. Artifact will be handled by CodePipeline."
+      - echo "✅ Build complete. Uploading to S3 with KMS encryption..."
+      - aws s3 cp target/*.jar s3://myekarts3/ --sse aws:kms
 
 artifacts:
   files:
