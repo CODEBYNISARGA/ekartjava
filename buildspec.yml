@@ -4,6 +4,7 @@ phases:
   install:
     runtime-versions:
       java: corretto17
+<<<<<<< HEAD
     commands:
       - echo "Installing Maven..."
       - apt-get update
@@ -12,11 +13,33 @@ phases:
   build:
     commands:
       - echo "Building the application..."
+=======
+    commands:
+      - echo "⬇️ Installing Maven, unzip & AWS CLI..."
+      - apt-get update
+      - apt-get install -y maven unzip
+      - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+      - unzip awscliv2.zip
+      - ./aws/install
+      - echo "✅ Installed Maven and AWS CLI"
+
+  pre_build:
+    commands:
+      - echo "📂 Current directory:"
+      - pwd
+      - echo "📂 Files:"
+      - ls -l
+
+  build:
+    commands:
+      - echo "🚧 Building Spring Boot project..."
+>>>>>>> f40f2e3b25301926c29fc80f70fc4903352e2027
       - mvn clean package -DskipTests
       - echo "Build complete."
 
   post_build:
     commands:
+<<<<<<< HEAD
       - echo "Zipping deployment files..."
       - mkdir -p deploy
       - cp target/shopping-cart-0.0.1-SNAPSHOT.jar deploy/
@@ -26,3 +49,11 @@ phases:
 artifacts:
   files:
     - deploy/**/*
+=======
+      - echo "✅ Build complete. Uploading to S3..."
+      - aws s3 cp target/*.jar s3://myekarts3/
+
+artifacts:
+  files:
+    - target/*.jar
+>>>>>>> f40f2e3b25301926c29fc80f70fc4903352e2027
