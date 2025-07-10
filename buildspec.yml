@@ -2,16 +2,17 @@ version: 0.2
 
 phases:
   install:
-    runtime-versions:
-      java: corretto17
-    commands:
-      - echo "⬇️ Installing Maven & AWS CLI..."
-      - apt-get update
-      - apt-get install -y maven
-      - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-      - unzip awscliv2.zip
-      - ./aws/install
-      - echo "✅ Installed Maven and AWS CLI"
+  runtime-versions:
+    java: corretto17
+  commands:
+    - echo "⬇️ Installing Maven, unzip & AWS CLI..."
+    - apt-get update
+    - apt-get install -y maven unzip
+    - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+    - unzip awscliv2.zip
+    - ./aws/install
+    - echo "✅ Installed Maven and AWS CLI"
+
 
   pre_build:
     commands:
